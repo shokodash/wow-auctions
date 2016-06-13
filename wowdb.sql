@@ -1,6 +1,8 @@
 drop database if exists wowauction;
+drop user if exists 'testuser';
 
 create database wowauction;
+grant all on wowauction.* to 'testuser'@'localhost' identified by 'ThreeFour34$';
 
 use wowauction;
 
@@ -30,3 +32,5 @@ metaid int not null,
 primary key (id),
 foreign key (metaid) references meta(id)
 );
+
+
