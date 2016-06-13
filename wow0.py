@@ -27,7 +27,7 @@ def url2json(url):
             encoding = openobj.info().get_content_charset('utf-8')
             return_json = json.loads(openread.decode(encoding))
     except Exception as err:
-        print(err)
+        print('url2json: ' + str(err))
     return return_json
 
 
@@ -51,7 +51,7 @@ def isnew(Connection, lastmod):
                 print('New')
                 return True
     except Exception as err:
-        print(err)
+        print('isnew: ' + str(err))
     return False
 
 
@@ -65,8 +65,8 @@ def json2db(datajson, lastmodified, connection):
         json2dbdata(Connection, datajson, lastrowid)
         connection.commit()
         print('lastrowid: ' + str(lastrowid))
-    except Exception as e1:
-        print (e1)
+    except Exception as err:
+        print ('json2db: ' + str(err))
 
 
 def json2dbdata(connection, datajson, metaid):
@@ -78,9 +78,9 @@ def json2dbdata(connection, datajson, metaid):
                 if counter % 1000 == 0:
                     print(str(counter) + ' lines processed')
                 querystr = 'insert into data (auc, item, owner, ownerrealm, bid, buyout, quantity, timeleft, rand, seed, context, metaid) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'
-                cur.execute(querystr, (i['auc'], i['item'], i['owner'], i['ownerRealm'], i['bid'], i['buyout'], i['quantity'], i['timeLeft'], i['rand'], i['seed'], i['context'], i['item'], metaid))
+                cur.execute(querystr, (i['auc'], i['item'], i['owner'], i['ownerRealm'], i['bid'], i['buyout'], i['quantity'], i['timeLeft'], i['rand'], i['seed'], i['context'], metaid))
     except Exception as err:
-        print(err)
+        print('json2dbdata: ' + str(err))
 
 reqjsonurl = 'https://eu.api.battle.net/wow/auction/data/outland?locale=en_GB&apikey=vyaa7heguj4qysbpyxc4sbhacgera8n2'
 while True:
@@ -96,8 +96,8 @@ while True:
         print('Connected to MySQL server')
         reqjson2db(reqjson, Connection)
         Connection.close()
-    except Exception as e1:
-        print (e1)
+    except Exception as err:
+        print ('Main Body: ' + str(err))
     print('Enter Sleep')
     time.sleep(300)
     print('Exit Sleep')
