@@ -4,19 +4,6 @@ import time
 import urllib.request
 import json
 
-# def getFiles():
-#     requesturl = 'https://eu.api.battle.net/wow/auction/data/outland?locale=en_GB&apikey=vyaa7heguj4qysbpyxc4sbhacgera8n2'
-#     try:
-#         print('requesting requesturl: ' + requesturl)
-#         with urllib.request.urlopen(requesturl) as reqopen:
-#             openread = reqopen.read()
-#             encoding = reqopen.info().get_content_charset('utf-8')
-#             print(openread)
-#             reqjson = json.loads(openread.decode(encoding))
-#             return reqjson
-#     except Exception as err:
-#         print(err)
-
 
 def url2json(url):
     return_json = ''
@@ -30,14 +17,11 @@ def url2json(url):
         print('url2json: ' + str(err))
     return return_json
 
-
-
 def reqjson2db(reqjson, Connection):
     for i in reqjson['files']:
         if isnew(Connection, i['lastModified']):
             datajson = url2json(i['url'])
             json2db(datajson, i['lastModified'], Connection)
-
 
 def isnew(Connection, lastmod):
     try:
@@ -54,7 +38,6 @@ def isnew(Connection, lastmod):
         print('isnew: ' + str(err))
     return False
 
-
 def json2db(datajson, lastmodified, connection):
     now = time.strftime('%Y-%m-%d %H:%M:%S')
     try:
@@ -67,7 +50,6 @@ def json2db(datajson, lastmodified, connection):
         print('lastrowid: ' + str(lastrowid))
     except Exception as err:
         print ('json2db: ' + str(err))
-
 
 def json2dbdata(connection, datajson, metaid):
     try:
